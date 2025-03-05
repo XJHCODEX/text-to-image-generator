@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Image Generator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Text to Image Generator</h1>
+        
+        <!-- Form for Image Generation -->
+        <form id="generateForm" action="/generate" method="POST" onsubmit="return submitForm(event);">
+            <div class="form-group">
+                <input type="text" class="form-control" name="prompt" id="prompt" placeholder="Describe an image..." required>
+            </div>
+            <button type="submit" class="btn-generate">Generate Image</button>
+        </form>
+
+        <!-- Display Generated Image -->
+        <div id="generatedImageContainer" style="display: none; margin-top: 20px;">
+            <h4>Generated Image</h4>
+            <div class="image-wrapper">
+                <img id="generatedImage" alt="Generated Image" style="max-width: 100%;">
+                <a id="downloadGenerated" href="#" download="generated_image.png" class="download-btn">
+                    <button>Download</button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Display Previous Images -->
+        <div class="previous-images" id="previousImages" style="display: none; margin-top: 20px;">
+            <h4>Previous Creations</h4>
+            <div class="gallery" id="imageGallery"></div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" style="color: red; display: none; margin-top: 10px;"></div>
+    </div>
+    
+    <script>
+        // Fetch previous images from database
+        async function fetchPreviousImages() {
+            try {
+                const response = await fetch("/previous_images");
+                if (!response.ok) throw new Error("Failed to fetch previous images");
+                const data = await response.json();
+                const gallery = document.getElementById("imageGallery");
+                gallery.innerHTML = "";
+
+                if (data.images && data.images.length > 0) {
+                    document.getElementById("previousImages").style.display = "block";
+                    data.images.forEach(img => {
+                        const container = document.createElement("div");
+                        container.className = "image-wrapper";
+
+                        const imgElement = document.createElement("img");
+                        imgElement.src = img.image_url;
+                        imgElement.alt = img.prompt;
+                        imgElement.style.maxWidth = "200px";
+
+                        const downloadLink = document.createElement("a");
+                        downloadLink.href = img.image_url;
+                        downloadLink.download = `${img.prompt.replace(/\s+/g, '_')}.png`;
+                        downloadLink.className = "download-btn";
+                        downloadLink.innerHTML = "<button>Download</button>";
+
+                        container.appendChild(imgElement);
+                        container.appendChild(downloadLink);
+                        gallery.appendChild(container);
+                    });
+                }
+            } catch (error) {
+                showError(`Error fetching previous images: ${error.message}`);
+            }
+        }
+
+        // Handle form submission
+        async function submitForm(event) {
+            event.preventDefault();
+            clearError();
+
+            const form = document.getElementById("generateForm");
+            const formData = new FormData(form);
+            const prompt = formData.get("prompt");
+
+            try {
+                const response = await fetch("/generate", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Unknown error");
+                }
+
+                const imageBlob = await response.blob();
+                const imageUrl = URL.createObjectURL(imageBlob);
+                const generatedImage = document.getElementById("generatedImage");
+                generatedImage.src = imageUrl;
+                document.getElementById("generatedImageContainer").style.display = "block";
+
+                // Set up download link for generated image
+                const downloadLink = document.getElementById("downloadGenerated");
+                downloadLink.href = imageUrl;
+
+                await fetchPreviousImages();
+                document.getElementById("prompt").value = "";
+            } catch (error) {
+                showError(`Error generating image: ${error.message}`);
+            }
+
+            return false;
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById("errorMessage");
+            errorDiv.textContent = message;
+            errorDiv.style.display = "block";
+        }
+
+        // Clear error message
+        function clearError() {
+            const errorDiv = document.getElementById("errorMessage");
+            errorDiv.textContent = "";
+            errorDiv.style.display = "none";
+        }
+
+        window.onload = fetchPreviousImages;
+    </script>
+</body>
+</html>

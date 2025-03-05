@@ -1,0 +1,179 @@
+body {
+    background-color: #121212;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 20px; /* Add padding to prevent edge sticking */
+    min-height: 100vh; /* Allow scrolling if content overflows */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Start from top instead of center */
+}
+
+.container {
+    max-width: 600px;
+    width: 100%; /* Ensure it scales responsively */
+    padding: 30px;
+    border-radius: 15px;
+    background: #1e1e1e;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    overflow-y: auto; /* Allow scrolling within container if needed */
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #FFD700;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    background: #2c2c2c;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 10px #FFD700;
+}
+
+.btn-generate {
+    background: linear-gradient(90deg, #FFD700, #FFB800);
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-generate:hover {
+    background: linear-gradient(90deg, #FFB800, #FFD700);
+}
+
+/* Generated Image Styling */
+#generatedImageContainer {
+    margin-top: 20px;
+    padding: 15px;
+    background: #2c2c2c;
+    border-radius: 10px;
+}
+
+#generatedImageContainer h4 {
+    margin: 0 0 10px 0;
+    color: #FFD700;
+}
+
+#generatedImage {
+    width: 100%; /* Fit to container width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 300px; /* Limit height to prevent overflow */
+    object-fit: contain; /* Ensure image fits without cropping */
+    border-radius: 10px;
+    border: 2px solid #FFD700;
+}
+
+/* Previous Images Styling */
+.previous-images {
+    margin-top: 20px;
+    padding: 15px;
+    background: #2c2c2c;
+    border-radius: 10px;
+}
+
+.previous-images h4 {
+    margin: 0 0 10px 0;
+    color: #FFD700;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to next line */
+    gap: 10px; /* Space between images */
+    justify-content: center; /* Center images in gallery */
+}
+
+.gallery img {
+    width: 150px; /* Fixed width for consistency */
+    height: 150px; /* Fixed height for consistency */
+    object-fit: cover; /* Crop to fit, maintaining aspect ratio */
+    border-radius: 10px;
+    border: 2px solid #FFD700;
+}
+
+/* Error Message */
+#errorMessage {
+    font-size: 14px;
+    padding: 10px;
+}
+
+/* Optional: Scrollbar styling for overflow */
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #FFD700;
+    border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #2c2c2c;
+}
+
+/* Container for image and download button */
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+/* Style the download button */
+.download-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Hidden by default */
+}
+
+/* Show download button on hover */
+.image-wrapper:hover .download-btn {
+    display: block;
+}
+
+/* Optional: Style the button */
+.download-btn button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.download-btn button:hover {
+    background-color: #45a049;
+}
+
+/* Ensure gallery layout is clean */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
