@@ -1,6 +1,6 @@
 # Text to Image Generator
 
-![Project Screenshot](assets/project-preview.png)
+![Project Screenshot](assets/project_preview.png)
 
 
 This project is a web application that generates images from text prompts using the Stable Diffusion 3.5 Large model via the Hugging Face API. It stores generated images in an Oracle database, limits the storage to the 10 most recent images, and provides a frontend interface to generate and download images.
