@@ -46,9 +46,9 @@ pip install flask requests cx_Oracle python-dotenv
 ### 4. Configure Environment Variables
 Create a .env file in the project root with the following content:
 ```bash
-username=`<your-oracle-username>`
-password=`<your-oracle-password>`
-DSN=`<your-oracle-dsn>`
+username=`<your-oracledb-username>`
+password=`<your-oracledb-password>`
+DSN=`<your-oracledb-dsn>`
 api_key=`<your-hugging-face-api-key>`
 ```
 
